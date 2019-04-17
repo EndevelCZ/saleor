@@ -138,3 +138,94 @@ Some situations do call for extra code; we can cover exotic use cases or build y
 
 #### Crafted with ❤️ by [Mirumee Software](http://mirumee.com)
 hello@mirumee.com
+
+
+## Endevel CZ part follows
+
+###Instalation according to [docs](https://saleor.readthedocs.io/en/latest/gettingstarted/installation-linux.html)
+
+globální debian/ubuntu balíčky
+```
+sudo apt-get install build-essential python3-dev python3-pip python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
+```
+
+naklonovat repository
+```
+git clone https://github.com/mirumee/saleor.git
+cd saleor
+```
+případně překopírovat vešketerý obsah (kromě `.git`) do složky nového projektu
+
+vytvořit virtualenv a nainstalovat závisloti
+```
+virtuaelenv .venv --python=/usr/bin/python3
+pip install -r requirements.txt
+```
+
+příklad pro user saleor s helsem saleor, db saleor
+```
+CREATE USER matpro_eshop WITH PASSWORD 'matpro_eshop';
+CREATE DATABASE matpro_eshop OWNER matpro_eshop;
+GRANT CONNECT ON DATABASE matpro_eshop TO matpro_eshop;
+\c matpro_eshop;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO matpro_eshop;
+```
+
+připravit databázi - musí odpovídat settingům v common.env
+
+```.env
+DATABASE_URL=postgres://matpro_eshop:matpro_eshop@localhost/matpro_eshop
+```
+
+#### DB setting TODO 
+1) Migrace vytváří extensions, takže db user musí být superuser `ALTER USER matpro_eshop WITH SUPERUSER;` 
+(v dokumentaci radí mít jednoho usera pouze pro migraca)
+2) Přijít na to, jak propagovat setting databáze (prozatím přepsán default v base.py)
+ 
+nastavit secret key jako ENV proměnnou (TODO předělat)
+```
+ export SECRET_KEY='<mysecretkey>'
+``` 
+
+udělat db (default name je saleor, pass saleor, user saleor) a zmigrovat    
+TODO podle dokumetnace může vyžadovat nějaké DB EXTENSIONS, ale zatím jsem 
+si to neověřil
+```
+python manage.py migrate
+```
+
+front 
+```
+npm install
+npm run build-assets
+npm run build-emails 
+```
+
+nejspíš budeme chtít ještě
+```
+python manage.py createsuperuser
+```
+
+a můžeme jet
+```
+python manage.py runserver
+```
+
+### Vývoj
+Django pouštíme klasicky, pomocí `npm start` pustíme webpack watcher pro
+SCSS a JS soubory, takže je nemusíme updatovat (build trvá několik vteřin)
+
+#### Zisk updatů z hlavního upstreamu
+
+Merge upstreamu originálího repo (dělá se v repo EndevelCZ/saleor)
+
+```
+git pull https://github.com/mirumee/saleor master
+```
+
+Po otestování změn na ukázkovém eshopu běžící přímo z EndevelCZ/saleor repa 
+můžeme přenést změny i do eshopu
+1) uděláme a checknoutneme větev `update`
+2) ručně přeneseme soubory (třeba všechny najednou)
+3) commitneme a pushneme
+4) uděláme merge do masteru našeho eshopu (zahodíme, co nechceme přepsat)

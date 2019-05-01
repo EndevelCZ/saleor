@@ -227,8 +227,8 @@ Pokud selže na conflictu, otevřeme v Pycharmu záložku `9: Version Control`
 a vyřešíme conflicty klasicky a následně commitneme merge a pushneme k nám.
 
 Po otestování změn na ukázkovém eshopu běžící přímo z EndevelCZ/saleor repa 
-
 můžeme přenést změny i do eshopu
+
 1) uděláme a checknoutneme větev `update`
 2) ručně přeneseme soubory (třeba všechny najednou)
 3) commitneme a pushneme

@@ -164,11 +164,11 @@ pip install -r requirements.txt
 
 příklad pro user saleor s helsem saleor, db saleor
 ```
-CREATE USER matpro_eshop WITH PASSWORD 'matpro_eshop';
-CREATE DATABASE matpro_eshop OWNER matpro_eshop;
-GRANT CONNECT ON DATABASE matpro_eshop TO matpro_eshop;
-\c matpro_eshop;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO matpro_eshop;
+CREATE USER saleor WITH PASSWORD 'saleor';
+CREATE DATABASE saleor OWNER saleor;
+GRANT CONNECT ON DATABASE saleor TO saleor;
+\c saleor;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO saleor;
 ```
 
 připravit databázi - musí odpovídat settingům v common.env

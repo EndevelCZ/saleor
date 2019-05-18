@@ -1,0 +1,19 @@
+ssh_users:
+  - "{{ lookup('file', 'files/lubos.pub')}}"
+  - "{{ lookup('file', 'files/ondra.pub')}}"
+  - "{{ lookup('file', 'files/lukas.pub')}}"
+  - "{{ lookup('file', 'files/honza.pub')}}"
+  - "{{ lookup('file', 'files/radek.pub')}}"
+
+# ============  PROJECT CONFIGURATION ================ #
+
+
+
+project_name: saleor
+git_repo: git@github.com:EndevelCZ/saleor.git
+sentry_dsn: https://0aa99b80e4824b5b8db099814e8c988a:4e9eb954760b47b6a1d63608406ec7a1@sentry.endevel.cz/23
+
+db_name: saleor
+db_user: saleor
+db_pass: "{{ db_pass }}"
+

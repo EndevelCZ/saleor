@@ -1,0 +1,17 @@
+---
+# defaults file for endevel-django
+project_name:
+git_repo:
+git_branch:
+db_name:
+db_pass:
+db_user:
+settings_file:
+project_domain:
+project_other_domains: false
+project_secret_key:
+sentry_dsn:
+db_superuser: db_superuser
+lc_collate: cs_CZ.UTF-8
+lc_ctype: cs_CZ.UTF-8
+encoding: UTF.8

@@ -643,6 +643,9 @@ GRAPHENE = {
     "RELAY_CONNECTION_MAX_LIMIT": 100,
 }
 
+# Custom overrides for our usage
+from .endevel_settings import *
+
 try:
     from .local import *
 except ImportError:

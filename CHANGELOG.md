@@ -3,6 +3,7 @@
 All notable, unreleased changes to this project will be documented in this file. For the released changes, please visit the [Releases](https://github.com/mirumee/saleor/releases) page.
 
 ## [Unreleased]
+
 - Cleanup code for updated function names, unused argument, etc. - #4090 by @jxltom
 - Merge authorize with capture - #4098 by @korycins, @NyanKiyoshi
 - Fix GATEWAYS_ENUM to always contain all implemented payment gateways - #4108 by @koradon
@@ -10,6 +11,15 @@ All notable, unreleased changes to this project will be documented in this file.
 - Change input style and improve Storybook stories - #4115 by @dominik-zeglen
 - Separated the legacy middleware from the GQL API middleware - #4102 by @NyanKiyoshi
 - Add navigation section - #4012 by @dominik-zeglen
+- Order Events containing order lines or fulfillment lines now return the line object in the GraphQL API - #4114 by @NyanKiyoshi
+- Migrate deprecated fields in Dashboard 2.0 - #4121 by @benekex2
+- Implement customer events - #4094 by @NyanKiyoshi
+- Fix draftail options and icons - #4132 by @benekex2
+- Add multiple select checkbox - #4133 by @benekex2
+- Add support for Google Cloud Storage - #4127 by @chetabahana
+- Fix wrong calculation of subtotal in cart page - #4145 by @korycins
+- Fix multiple checkbox selected behavior - #4146 by @benekex2
+- GraphQL now prints exceptions to stderr as well as returning them or not - #4148 by @NyanKiyoshi
 
 ## 2.6.0
 

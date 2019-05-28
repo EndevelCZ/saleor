@@ -1,7 +1,6 @@
 ---
 # defaults file for endevel-django
 project_name:
-django_project_name: main
 git_repo:
 git_branch:
 db_name:
@@ -14,7 +13,8 @@ project_secret_key:
 sentry_dsn:
 settings_path: "{{ django_project_name }}.settings.{{ settings_file }}"
 eshop: false
-python_path: {% if eshop %}"{{ python_install_root }}/bin/{{ python_version }}"{% else %}python3.5{% endif %}
+python_path: "{% if eshop %}/opt/python/bin/python3{% else %}python3.5{% endif %}"
+django_project_name: "{% if eshop %}saleor{% else %}main{% endif %}"
 
 email_host: localhost
 email_port: 25

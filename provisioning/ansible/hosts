@@ -44,16 +44,4 @@
 
 
 [develop]
-hosting2.endevel.cz
-
-# [production]
-# hosting3.endevel.cz  # naturhouse
-# ec2-3-121-99-240.eu-central-1.compute.amazonaws.com  # conference
-
-# [conference]
-# hosting2.endevel.cz
-# ec2-3-121-99-240.eu-central-1.compute.amazonaws.com
-
-# [naturhouse]
-# hosting2.endevel.cz
-# www.zdravy-jidelnicek.cz
+192.168.57.3

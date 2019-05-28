@@ -7,13 +7,14 @@ ssh_users:
 
 # ============  PROJECT CONFIGURATION ================ #
 
-
-
+django_project_name: saleor
 project_name: saleor
 git_repo: git@github.com:EndevelCZ/saleor.git
 sentry_dsn: https://0aa99b80e4824b5b8db099814e8c988a:4e9eb954760b47b6a1d63608406ec7a1@sentry.endevel.cz/23
 
 db_name: saleor
 db_user: saleor
-db_pass: "{{ db_pass }}"
+db_pass: "{{ vault_project_db_password }}"
 
+eshop: true
+settings_path: "{{ django_project_name }}.settings"

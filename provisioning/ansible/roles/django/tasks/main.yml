@@ -33,7 +33,7 @@
   pip:
     requirements: '/var/www/{{ project_name }}/requirements/{{ settings_file }}.pip'
     virtualenv: '/var/www/{{ project_name }}/.venv/'
-    virtualenv_python: python3.5
+    virtualenv_python: "{{ python_path }}"
   notify: restart supervisor
 
 - name: Create .env file from template if it doesn't exist already.
@@ -52,14 +52,14 @@
   django_manage:
     command: migrate
     app_path: "/var/www/{{ project_name }}"
-    settings: "main.settings.{{ settings_file }}"
+    settings: "{{ settings_path }}"
     virtualenv: "/var/www/{{ project_name }}/.venv/"
 
 - name: django collectstatic
   django_manage:
     command: collectstatic
     app_path: "/var/www/{{ project_name }}"
-    settings: "main.settings.{{ settings_file }}"
+    settings: "{{ settings_path }}"
     virtualenv: "/var/www/{{ project_name }}/.venv/"
 
 - name: Create supervisor project conf file

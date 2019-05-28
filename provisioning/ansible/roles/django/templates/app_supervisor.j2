@@ -1,6 +1,6 @@
 [program:{{ project_name }}]
 directory = /var/www/{{ project_name }}
-command = /var/www/{{ project_name }}/.venv/bin/gunicorn main.wsgi --env DJANGO_SETTINGS_MODULE=main.settings.{{ settings_file }} -b unix:/var/www/{{ project_name }}/app.sock
+command = /var/www/{{ project_name }}/.venv/bin/gunicorn main.wsgi --env DJANGO_SETTINGS_MODULE={{ settings_path }} -b unix:/var/www/{{ project_name }}/app.sock
 user = {{ user | default(ansible_ssh_user) }}
 stdout_logfile = /var/www/{{ project_name }}/log/gunicorn_supervisor.log
 redirect_stderr = true

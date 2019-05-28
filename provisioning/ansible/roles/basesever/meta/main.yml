@@ -104,6 +104,7 @@ dependencies:
     - role: weareinteractive.ufw
       vars:
         ufw_rules: [{ port: 22, rule: allow }, { port: 80, rule: allow }, { port: 443, rule: allow }]
+    - role: geerlingguy.nodejs
     - role: oefenweb.fail2ban
       vars:
         fail2ban_sendername: 'noreply@endevel.cz'
@@ -123,5 +124,6 @@ dependencies:
             source: /mnt/backup/
             # target: "s3://backup-endevel.s3.eu-central-1.amazonaws.com/{{ inventory_hostname }}/"
             target: "ftp://endevel_backup:{{ vault_ftp_backup_password }}@mail.eupolymer.cz/{{ inventory_hostname }}/"
+    - src: git+git@github.com:EndevelCZ/ansible-python.git
 
 

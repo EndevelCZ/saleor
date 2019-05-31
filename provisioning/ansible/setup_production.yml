@@ -1,3 +1,0 @@
----
-
-- import_playbook: setup_all.yml deploy_hosts=production

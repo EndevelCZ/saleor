@@ -226,6 +226,36 @@ Merge upstreamu originálího repo (dělá se v repo EndevelCZ/saleor)
 git pull https://github.com/mirumee/saleor master
 ```
 
+Pokud selže na konfliktu, otevřeme v Pycharmu záložku `9: Version Control` 
+a vyřešíme konflikty klasicky a následně commitneme merge a pushneme k nám.
+
+#### Zisk updatů v jednotlivých eshopech
+
+Každý eshop musí být vytvořený následujícím způsobem
+
+Nejdříve vytvoříme nový repozitář (bez README.md) - tzn. naprosto prázdný
+
+
+```
+git clone git@bitbucket.org:endevel/NEWSHOP_saleor.git  
+git remote add sync git@github.com:endevelcz/saleor.git # popr. mirumee/saleor.git
+git remote -v                                           # zkontrolovat
+git pull sync master                                    # pullneme sync upstream
+git branch --track github sync/master                   # nastavíme github branch pro sync
+git push -u origin master                               # pushenme všechno do masteru     
+
+```
+ 
+Pak už "jenom" pravidelně pullujeme v `github` větvi a mergujeme jí do masteru
+
+#### Old version of getting updates
+
+Merge upstreamu originálího repo (dělá se v repo EndevelCZ/saleor)
+
+```
+git pull https://github.com/mirumee/saleor master
+```
+
 Pokud selže na conflictu, otevřeme v Pycharmu záložku `9: Version Control` 
 a vyřešíme conflicty klasicky a následně commitneme merge a pushneme k nám.
 

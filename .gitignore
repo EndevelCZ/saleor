@@ -38,3 +38,5 @@ webpack-bundle.json
 !/templates/templated_email/compiled/.gitkeep
 
 provisioning/ansible/vault.txt
+!/provisioning/ansible/templates/.env.j2
+!.env.sample

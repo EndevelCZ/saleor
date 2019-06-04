@@ -248,6 +248,9 @@ git push -u origin master                               # pushenme všechno do m
  
 Pak už "jenom" pravidelně pullujeme v `github` větvi a mergujeme jí do masteru
 
+**NIKDY NEPUSHUJEME DO `github` větve, protože ta se updatuje přes `endevelcz/saleor` 
+github repo**
+
 #### Old version of getting updates
 
 Merge upstreamu originálího repo (dělá se v repo EndevelCZ/saleor)

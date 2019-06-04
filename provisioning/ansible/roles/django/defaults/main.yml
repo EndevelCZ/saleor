@@ -1,0 +1,29 @@
+---
+# defaults file for endevel-django
+project_name:
+git_repo:
+git_branch:
+db_name:
+db_pass:
+db_user:
+settings_file:
+project_domain:
+project_other_domains: false
+project_secret_key:
+sentry_dsn:
+settings_path: "{{ django_project_name }}.settings.{{ settings_file }}"
+eshop: false
+python_path: "{% if eshop %}/opt/python/bin/python3{% else %}python3.5{% endif %}"
+django_project_name: "{% if eshop %}saleor{% else %}main{% endif %}"
+
+email_host: localhost
+email_port: 25
+email_password:
+email_user:
+email_use_tls: false
+email_default_from: "info@{{ project_domain }}"
+
+db_superuser: db_superuser
+lc_collate: cs_CZ.UTF-8
+lc_ctype: cs_CZ.UTF-8
+encoding: UTF.8

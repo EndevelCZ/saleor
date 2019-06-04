@@ -1,0 +1,6 @@
+- src: git+git@bitbucket.org:endevel/endevel-sever.git
+  name: basesever
+- src: git+git@bitbucket.org:endevel/endevel-django.git
+  name: django
+- src: git+git@bitbucket.org:endevel/endevel-django-ssl.git
+  name: django_ssl

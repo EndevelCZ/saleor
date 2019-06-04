@@ -1,0 +1,13 @@
+### SERVER VARIABLES ###
+server_hostname: hosting2.endevel.cz
+
+### PROJECT VARIABLES ###
+git_branch: master
+settings_file: develop
+project_domain: eshop.endevel.cz
+project_secret_key: cv(!hq*roer4uil^j!l6wjg(o+!0h#i&8wmsix*gb-kmor3fuv
+
+redirect_http: false
+
+project_other_domains: false
+

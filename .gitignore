@@ -32,6 +32,11 @@ dist/
 /node_modules/
 /static/
 /saleor/static/assets/
+/saleor/local.py
 webpack-bundle.json
 /templates/templated_email/compiled/*
 !/templates/templated_email/compiled/.gitkeep
+
+provisioning/ansible/vault.txt
+!/provisioning/ansible/templates/.env.j2
+!.env.sample

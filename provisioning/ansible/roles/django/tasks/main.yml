@@ -1,0 +1,132 @@
+- git:
+    repo: '{{ git_repo }}'
+    dest: '/var/www/{{ project_name }}'
+    version: '{{ git_branch }}'
+    force: yes
+    accept_hostkey: yes
+  notify: restart supervisor
+
+- name: Creates log directory
+  file:
+    path: '/var/www/{{ project_name }}/log'
+    state: directory
+
+- name: create project DB
+  postgresql_db:
+    name: '{{ db_name }}'
+    login_host: localhost
+    login_user: "{{ db_superuser }}"
+    login_password: '{{ vault_database_password }}'
+    encoding: "{{ encoding }}"
+    template: template0
+
+- name: create eshop extensions
+  postgresql_ext:
+    name: "{{ item }}"
+    db: '{{ db_name }}'
+    login_host: localhost
+    login_user: "{{ db_superuser }}"
+    login_password: '{{ vault_database_password }}'
+    state: present
+  with_items:
+    - hstore
+    - pg_trgm
+    - btree_gin
+  when: eshop
+
+- name: create project DB users
+  postgresql_user:
+    db: '{{ db_name }}'
+    login_host: localhost
+    login_user: "{{ db_superuser }}"
+    login_password: '{{ vault_database_password }}'
+    name: '{{ db_user }}'
+    password: '{{ db_pass }}'
+
+- name: Install requirements
+  pip:
+    requirements: '/var/www/{{ project_name }}/requirements/{{ settings_file }}.pip'
+    virtualenv: '/var/www/{{ project_name }}/.venv/'
+    virtualenv_python: "{{ python_path }}"
+  notify: restart supervisor
+
+- name: Create .env file from template if it doesn't exist already.
+  template:
+    src: "{{ playbook_dir }}/templates/.env.j2"
+    dest: '/var/www/{{ project_name }}/.env'
+  notify: restart supervisor
+
+- name: fix permissions on manage.py
+  file:
+    path: "/var/www/{{ project_name }}/manage.py"
+    # recurse: yes
+    mode: "u=rwx,g=rwx,o=rx"
+
+- name: django migrate
+  django_manage:
+    command: migrate
+    app_path: "/var/www/{{ project_name }}"
+    settings: "{{ settings_path }}"
+    virtualenv: "/var/www/{{ project_name }}/.venv/"
+
+- name: Install packages based on package.json for saleor
+  npm:
+    path: "/var/www/{{ project_name }}"
+  when: eshop
+
+- name: Build assets for saleor
+  command: "npm run build-assets"
+  args:
+    chdir: "/var/www/{{ project_name }}"
+  when: eshop
+
+- name: Build emails for saleor
+  command: "npm run build-emails"
+  args:
+    chdir: "/var/www/{{ project_name }}"
+  when: eshop
+
+- name: django collectstatic
+  django_manage:
+    command: collectstatic
+    app_path: "/var/www/{{ project_name }}"
+    settings: "{{ settings_path }}"
+    virtualenv: "/var/www/{{ project_name }}/.venv/"
+
+- name: Create supervisor project conf file
+  become: yes
+  become_user: root
+  template:
+    src: templates/app_supervisor.j2
+    dest: '/etc/supervisor/conf.d/{{ project_name }}.conf'
+  notify: restart supervisor
+
+- name: supervisor project conf present
+  supervisorctl:
+    name: '{{ project_name }}'
+    state: present
+
+- name: supervisor project start
+  supervisorctl:
+    name: '{{ project_name }}'
+    state: started
+
+- name: Create nginx virtual host
+  become: yes
+  become_user: root
+  template:
+    src: templates/nginx_vhost.j2
+    dest: '/etc/nginx/sites-available/{{ project_name }}.conf'
+  notify: reload nginx
+
+- name: Create symlink to sites-enabled
+  become: yes
+  become_user: root
+  file:
+    dest: '/etc/nginx/sites-enabled/{{ project_name }}.conf'
+    src: '/etc/nginx/sites-available/{{ project_name }}.conf'
+    state: link
+  notify: reload nginx
+
+
+

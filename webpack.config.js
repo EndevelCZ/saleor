@@ -118,6 +118,7 @@ module.exports = (env, argv) => {
             resolve('node_modules'),
             resolve('saleor/static/fonts'),
             resolve('saleor/static/images'),
+            resolve('saleor/static/endevel/images'),
             resolve('saleor/static/dashboard/images')
           ]
         }

@@ -38,6 +38,8 @@ All notable, unreleased changes to this project will be documented in this file.
 - Fix applying discounts in checkout's subtotal calculation in API - #4192 by @maarcingebala
 - Fix visibility card view - #4198 by @benekex2
 - Use date localize hook in translations - #4202 by @dominik-zeglen
+- Add filtering interface to product list - #4193 by @dominik-zeglen
+- Unify search API - #4200 by @dominik-zeglen
 
 ## 2.6.0
 

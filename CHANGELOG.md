@@ -40,6 +40,22 @@ All notable, unreleased changes to this project will be documented in this file.
 - Use date localize hook in translations - #4202 by @dominik-zeglen
 - Add filtering interface to product list - #4193 by @dominik-zeglen
 - Unify search API - #4200 by @dominik-zeglen
+- Close modals on click outside - #4236 - by @benekex2
+- Default default PAGINATE_BY - #4238 by @dominik-zeglen
+- Add basic Gift Cards support in the backend - #4025 by @fowczarek
+- Create generic filtering interface - #4221 by @dominik-zeglen
+- API checkout payment can fail without creating an order and deleting checkout - #4154 by @NyanKiyoshi
+- Payment gateways are now optionally receiving the `order_id` field from the `PaymentData` object. Thus should not rely on that information. - #4154 by @NyanKiyoshi
+- Add order filtering - #4237 by @dominik-zeglen
+- Fix query refetch after selecting an object in list - #4272 by @dominik-zeglen
+- Fix image selection in variants - #4270 by @benekex2
+- Reset selected items when tab switch - #4268 by @benekex2
+- Fix collection search - #4267 by @dominik-zeglen
+- Fix quantity height in draft order edit - #4273 by @benekex2
+- Fix checkbox clickable area size - #4280 by @dominik-zeglen
+- Fix exploding object select in menu section - #4282 by @dominik-zeglen
+- Add default state to rich text editor = #4281 by @dominik-zeglen
+
 
 ## 2.6.0
 

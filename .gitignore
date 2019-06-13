@@ -37,6 +37,9 @@ webpack-bundle.json
 /templates/templated_email/compiled/*
 !/templates/templated_email/compiled/.gitkeep
 
+# Exported results file
+django-queries-results.html
+
 provisioning/ansible/vault.txt
 !/provisioning/ansible/templates/.env.j2
 !.env.sample

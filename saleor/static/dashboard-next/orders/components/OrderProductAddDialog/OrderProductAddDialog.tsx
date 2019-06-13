@@ -18,13 +18,13 @@ import TextField from "@material-ui/core/TextField";
 import * as React from "react";
 import * as InfiniteScroll from "react-infinite-scroller";
 
-import Checkbox from "../../../components/Checkbox";
+import Checkbox from "@saleor/components/Checkbox";
 import ConfirmButton, {
   ConfirmButtonTransitionState
-} from "../../../components/ConfirmButton";
-import Form from "../../../components/Form";
-import Money from "../../../components/Money";
-import TableCellAvatar from "../../../components/TableCellAvatar";
+} from "@saleor/components/ConfirmButton";
+import Form from "@saleor/components/Form";
+import Money from "@saleor/components/Money";
+import TableCellAvatar from "@saleor/components/TableCellAvatar";
 import i18n from "../../../i18n";
 import { maybe, renderCollection } from "../../../misc";
 import {
@@ -68,7 +68,8 @@ const styles = (theme: Theme) =>
       textAlign: "right"
     },
     variantCheckbox: {
-      paddingLeft: theme.spacing.unit
+      left: theme.spacing.unit,
+      position: "relative"
     },
     wideCell: {
       width: "100%"
@@ -131,6 +132,7 @@ const OrderProductAddDialog = withStyles(styles, {
     onSubmit
   }: OrderProductAddDialogProps) => (
     <Dialog
+      onClose={onClose}
       open={open}
       classes={{ paper: classes.overflow }}
       fullWidth

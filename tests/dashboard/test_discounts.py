@@ -1,13 +1,10 @@
 import json
-from datetime import date
 from decimal import Decimal
 from unittest.mock import Mock
 
-from django.urls import reverse
-
-from prices import Money, TaxedMoney
-
 import pytest
+from django.urls import reverse
+from prices import Money, TaxedMoney
 
 from saleor.dashboard.order.utils import get_voucher_discount_for_order
 from saleor.discount import DiscountValueType, VoucherType
@@ -48,8 +45,8 @@ def test_voucher_shipping_add(admin_client):
     assert voucher.type == VoucherType.SHIPPING
     assert voucher.code == data["code"]
     assert voucher.name == data["name"]
-    assert voucher.start_date == date(2018, 1, 1)
-    assert voucher.end_date == date(2018, 6, 1)
+    assert voucher.start_date.isoformat() == "2018-01-01T06:00:00+00:00"
+    assert voucher.end_date.isoformat() == "2018-06-01T05:00:00+00:00"
     assert voucher.discount_value_type == DiscountValueType.FIXED
     assert voucher.discount_value == Decimal("15.99")
     assert voucher.min_amount_spent == Money("59.99", "USD")
@@ -105,25 +102,26 @@ def test_view_sale_add_requires_product_category_or_collection(
 
 
 @pytest.mark.parametrize(
-    "total, discount_value, discount_type, min_amount_spent, expected_value",
+    "subtotal, discount_value, discount_type, min_amount_spent, expected_value",
     [
         ("100", 10, DiscountValueType.FIXED, None, 10),
         ("100.05", 10, DiscountValueType.PERCENTAGE, 100, 10),
     ],
 )
 def test_value_voucher_order_discount(
-    total, discount_value, discount_type, min_amount_spent, expected_value
+    subtotal, discount_value, discount_type, min_amount_spent, expected_value
 ):
     voucher = Voucher(
         code="unique",
-        type=VoucherType.VALUE,
+        type=VoucherType.ENTIRE_ORDER,
         discount_value_type=discount_type,
         discount_value=discount_value,
         min_amount_spent=Money(min_amount_spent, "USD")
         if min_amount_spent is not None
         else None,
     )
-    subtotal = TaxedMoney(net=Money(total, "USD"), gross=Money(total, "USD"))
+    subtotal = Money(subtotal, "USD")
+    subtotal = TaxedMoney(net=subtotal, gross=subtotal)
     order = Mock(get_subtotal=Mock(return_value=subtotal), voucher=voucher)
     discount = get_voucher_discount_for_order(order)
     assert discount == Money(expected_value, "USD")
@@ -143,10 +141,9 @@ def test_shipping_voucher_order_discount(
         discount_value=discount_value,
         min_amount_spent=None,
     )
-    subtotal = TaxedMoney(net=Money(100, "USD"), gross=Money(100, "USD"))
-    shipping_total = TaxedMoney(
-        net=Money(shipping_cost, "USD"), gross=Money(shipping_cost, "USD")
-    )
+    subtotal = Money(100, "USD")
+    subtotal = TaxedMoney(net=subtotal, gross=subtotal)
+    shipping_total = Money(shipping_cost, "USD")
     order = Mock(
         get_subtotal=Mock(return_value=subtotal),
         shipping_price=shipping_total,
@@ -164,7 +161,8 @@ def test_shipping_voucher_checkout_discount_not_applicable_returns_zero():
         discount_value=10,
         min_amount_spent=Money(20, "USD"),
     )
-    price = TaxedMoney(net=Money(10, "USD"), gross=Money(10, "USD"))
+    price = Money(10, "USD")
+    price = TaxedMoney(net=price, gross=price)
     order = Mock(
         get_subtotal=Mock(return_value=price), shipping_price=price, voucher=voucher
     )
@@ -222,7 +220,7 @@ def test_ajax_voucher_list(admin_client, voucher):
 
 
 @pytest.mark.parametrize(
-    "voucher_type", ["collection", "category", "product", "value", "shipping"]
+    "voucher_type", ["collection", "category", "product", "entire_order", "shipping"]
 )
 def test_voucher_form_min_amount_spent_is_changed_on_edit(
     admin_client, product, collection, voucher_type
@@ -258,8 +256,8 @@ def test_voucher_form_min_amount_spent_is_changed_on_edit(
     assert voucher.type == voucher_type
     assert voucher.code == data["code"]
     assert voucher.name == data["name"]
-    assert voucher.start_date == date(2019, 1, 1)
-    assert voucher.end_date == date(2019, 6, 1)
+    assert voucher.start_date.isoformat() == "2019-01-01T06:00:00+00:00"
+    assert voucher.end_date.isoformat() == "2019-06-01T05:00:00+00:00"
     assert voucher.discount_value_type == DiscountValueType.FIXED
     assert voucher.discount_value == Decimal("15.99")
     assert voucher.min_amount_spent == Money("800", "USD")

@@ -143,6 +143,7 @@ export enum PaymentChargeStatusEnum {
 export enum PermissionEnum {
   IMPERSONATE_USERS = "IMPERSONATE_USERS",
   MANAGE_DISCOUNTS = "MANAGE_DISCOUNTS",
+  MANAGE_GIFT_CARD = "MANAGE_GIFT_CARD",
   MANAGE_MENUS = "MANAGE_MENUS",
   MANAGE_ORDERS = "MANAGE_ORDERS",
   MANAGE_PAGES = "MANAGE_PAGES",
@@ -197,24 +198,13 @@ export enum TaxRateType {
   WINE = "WINE",
 }
 
-export enum VoucherDiscountValueType {
-  FIXED = "FIXED",
-  PERCENTAGE = "PERCENTAGE",
-}
-
-export enum VoucherType {
-  CATEGORY = "CATEGORY",
-  COLLECTION = "COLLECTION",
-  PRODUCT = "PRODUCT",
-  SHIPPING = "SHIPPING",
-  VALUE = "VALUE",
-}
-
 export enum VoucherTypeEnum {
   CATEGORY = "CATEGORY",
   COLLECTION = "COLLECTION",
+  ENTIRE_ORDER = "ENTIRE_ORDER",
   PRODUCT = "PRODUCT",
   SHIPPING = "SHIPPING",
+  SPECIFIC_PRODUCT = "SPECIFIC_PRODUCT",
   VALUE = "VALUE",
 }
 
@@ -576,6 +566,8 @@ export interface VoucherInput {
   categories?: (string | null)[] | null;
   minAmountSpent?: any | null;
   countries?: (string | null)[] | null;
+  applyOncePerOrder?: boolean | null;
+  usageLimit?: number | null;
 }
 
 //==============================================================

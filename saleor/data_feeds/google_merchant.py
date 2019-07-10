@@ -1,5 +1,4 @@
 import csv
-import datetime
 import gzip
 from typing import Iterable
 
@@ -7,8 +6,10 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain
 from django.core.files.storage import default_storage
+from django.utils import timezone
 from django.utils.encoding import smart_text
 
+from ..core.taxes import zero_money
 from ..discount import DiscountInfo
 from ..discount.utils import fetch_discounts
 from ..product.models import Attribute, AttributeValue, Category, ProductVariant
@@ -126,8 +127,8 @@ def item_tax(item: ProductVariant, discounts: Iterable[DiscountInfo]):
     Read more:
     https://support.google.com/merchants/answer/6324454
     """
-    price = item.get_price(discounts=discounts)
-    return "US::%s:y" % price.tax
+    # FIXME https://github.com/mirumee/saleor/issues/4311
+    return "US::%s:y" % zero_money()
 
 
 def item_group_id(item: ProductVariant):
@@ -167,12 +168,12 @@ def item_google_product_category(item: ProductVariant, category_paths):
 
 def item_price(item: ProductVariant):
     price = item.get_price(discounts=None)
-    return "%s %s" % (price.gross.amount, price.currency)
+    return "%s %s" % (price.amount, price.currency)
 
 
 def item_sale_price(item: ProductVariant, discounts: Iterable[DiscountInfo]):
     sale_price = item.get_price(discounts=discounts)
-    return "%s %s" % (sale_price.gross.amount, sale_price.currency)
+    return "%s %s" % (sale_price.amount, sale_price.currency)
 
 
 def item_attributes(
@@ -222,7 +223,7 @@ def write_feed(file_obj):
     writer = csv.DictWriter(file_obj, ATTRIBUTES, dialect=csv.excel_tab)
     writer.writeheader()
     categories = Category.objects.all()
-    discounts = fetch_discounts(datetime.date.today())
+    discounts = fetch_discounts(timezone.now())
     attributes_dict = {a.slug: a.pk for a in Attribute.objects.all()}
     attribute_values_dict = {
         smart_text(a.pk): smart_text(a) for a in AttributeValue.objects.all()

@@ -76,6 +76,7 @@ LANGUAGES = [
     ("hu", _("Hungarian")),
     ("hy", _("Armenian")),
     ("id", _("Indonesian")),
+    ("is", _("Icelandic")),
     ("it", _("Italian")),
     ("ja", _("Japanese")),
     ("ko", _("Korean")),
@@ -343,6 +344,13 @@ OPENEXCHANGERATES_API_KEY = os.environ.get("OPENEXCHANGERATES_API_KEY")
 # If you are subscribed to a paid vatlayer plan, you can enable HTTPS.
 VATLAYER_ACCESS_KEY = os.environ.get("VATLAYER_ACCESS_KEY")
 VATLAYER_USE_HTTPS = get_bool_from_env("VATLAYER_USE_HTTPS", False)
+
+# Avatax supports two ways of log in - username:password or account:license
+AVATAX_USERNAME_OR_ACCOUNT = os.environ.get("AVATAX_USERNAME_OR_ACCOUNT")
+AVATAX_PASSWORD_OR_LICENSE = os.environ.get("AVATAX_PASSWORD_OR_LICENSE")
+AVATAX_USE_SANDBOX = os.environ.get("AVATAX_USE_SANDBOX", DEBUG)
+AVATAX_COMPANY_NAME = os.environ.get("AVATAX_COMPANY_NAME", "DEFAULT")
+AVATAX_AUTOCOMMIT = os.environ.get("AVATAX_AUTOCOMMIT", False)
 
 ACCOUNT_ACTIVATION_DAYS = 3
 

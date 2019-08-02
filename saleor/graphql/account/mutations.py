@@ -232,8 +232,10 @@ class CustomerUpdate(CustomerCreate):
 
     @classmethod
     def perform_mutation(cls, _root, info, **data):
-        """Override the base method `perform_mutation` of ModelMutation
-        to generate events by comparing the old instance with the new data."""
+        """Generate events by comparing the old instance with the new data.
+
+        It overrides the `perform_mutation` base method of ModelMutation.
+        """
 
         # Retrieve the data
         original_instance = cls.get_instance(info, **data)
@@ -368,9 +370,12 @@ class StaffCreate(ModelMutation):
 
     @classmethod
     def save(cls, info, user, cleaned_input):
-        user.avatar = get_random_avatar()
+        create_avatar = not user.avatar
+        if create_avatar:
+            user.avatar = get_random_avatar()
         user.save()
-        create_user_avatar_thumbnails.delay(user_id=user.pk)
+        if create_avatar:
+            create_user_avatar_thumbnails.delay(user_id=user.pk)
         if cleaned_input.get("send_password_email"):
             send_set_password_staff_email.delay(user.pk)
 

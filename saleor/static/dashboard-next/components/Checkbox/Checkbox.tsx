@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core/styles";
 import classNames from "classnames";
 import React from "react";
-import { stopPropagation } from "../../misc";
 
 export type CheckboxProps = Omit<
   MuiCheckboxProps,
@@ -19,7 +18,9 @@ export type CheckboxProps = Omit<
   | "indeterminateIcon"
   | "classes"
   | "onChange"
+  | "onClick"
 > & {
+  disableClickPropagation?: boolean;
   onChange?: (event: React.ChangeEvent<any>) => void;
 };
 
@@ -82,21 +83,31 @@ const Checkbox = withStyles(styles, { name: "Checkbox" })(
     className,
     classes,
     disabled,
+    disableClickPropagation,
     indeterminate,
     onChange,
-    onClick,
     value,
     name,
     ...props
   }: CheckboxProps & WithStyles<typeof styles>) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const handleClick = React.useCallback(
+      disableClickPropagation
+        ? event => {
+            event.stopPropagation();
+            inputRef.current.click();
+          }
+        : () => inputRef.current.click(),
+      []
+    );
+
     return (
       <ButtonBase
         {...props}
         centerRipple
         className={classNames(classes.root, className)}
         disabled={disabled}
-        onClick={stopPropagation(() => inputRef.current.click())}
+        onClick={handleClick}
       >
         <input
           className={classNames(classes.box, {

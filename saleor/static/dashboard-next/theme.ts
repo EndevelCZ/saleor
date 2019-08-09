@@ -63,7 +63,10 @@ export default (colors: IThemeColors): Theme =>
         root: {
           borderColor: colors.paperBorder,
           borderRadius: 8,
-          boxShadow: "none"
+          borderStyle: "solid",
+          borderWidth: 1,
+          boxShadow: "none",
+          overflow: "visible"
         }
       },
       MuiCardActions: {
@@ -78,9 +81,6 @@ export default (colors: IThemeColors): Theme =>
       },
       MuiFormLabel: {
         filled: {
-          color: [[colors.primary], "!important"] as any
-        },
-        focused: {
           color: [[colors.primary], "!important"] as any
         }
       },
@@ -98,7 +98,7 @@ export default (colors: IThemeColors): Theme =>
             boxShadow: `inset 0 0 0px 9999px ${colors.autofill}`
           },
           "&::placeholder": {
-            opacity: "initial !important" as "initial"
+            opacity: "1 !important" as any
           }
         },
         underline: {
@@ -110,7 +110,8 @@ export default (colors: IThemeColors): Theme =>
       MuiInputBase: {
         input: {
           "&::placeholder": {
-            color: colors.font.gray
+            color: colors.font.gray,
+            opacity: "1 !important" as any
           }
         }
       },
@@ -130,6 +131,7 @@ export default (colors: IThemeColors): Theme =>
           color: colors.input.text
         },
         shrink: {
+          // Negates x0.75 scale
           width: "133%"
         }
       },
@@ -170,6 +172,9 @@ export default (colors: IThemeColors): Theme =>
       },
       MuiOutlinedInput: {
         input: {
+          "&::placeholder": {
+            opacity: [[0], "!important"] as any
+          },
           color: colors.input.text,
           padding: "20px 12px 8px 12px"
         },
@@ -199,6 +204,9 @@ export default (colors: IThemeColors): Theme =>
               borderColor: [[colors.primary], "!important"] as any
             },
             "& input": {
+              "&::placeholder": {
+                opacity: [[1], "!important"] as any
+              },
               color: colors.input.textHover,
               zIndex: 2
             }
@@ -266,7 +274,14 @@ export default (colors: IThemeColors): Theme =>
           fontWeight: 400
         },
         paddingCheckbox: {
-          width: 72
+          "&:first-child": {
+            padding: "0 12px",
+            width: 72
+          },
+          "&:not(first-child)": {
+            padding: 0,
+            width: 52
+          }
         },
         root: {
           "&:first-child": {

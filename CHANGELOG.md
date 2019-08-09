@@ -35,7 +35,20 @@ All notable, unreleased changes to this project will be documented in this file.
 - Display menu item form errors - #4551 by @dominik-zeglen
 - Add voucher settings - #4556 by @benekex2
 - Enforced pydocstyle for Python docstrings over the project - #4562 by @NyanKiyoshi
+- The checkout process of digital orders no longer require shipping information over the API - #4573 by @NyanKiyoshi
 - Add e2e test config - #4553 by @dominik-zeglen
+- Fix MUI warnings - #4588 by @dominik-zeglen
+- Disabled unneeded reports from uWSGI about broken pipe and write errors from disconnected clients. Preventing from spamming sentry users. - #4596 by @NyanKiyoshi
+- Upgraded to django 2.2.4 - #4603 by @NyanKiyoshi
+- Invalid IP address in HTTP requests now fallback to the requester's IP address. - #4597 by @NyanKiyoshi
+- Add queries and mutation for serving and saving the configuration of all plugins - #4576 by @korycins
+- Refactor account mutations - #4510 by @fowczarek
+- Users cannot add multiple times the same product into a collection anymore - #4518 by @NyanKiyoshi
+- Enterprise-grade attributes management - #4351 by @dominik-zeglen and @NyanKiyoshi
+- Refetch attribute list after closing modal - #4615 by @dominik-zeglen
+- Add ability to toggle visible columns in product list - #4608 by @dominik-zeglen 
+- Serialize empty URL as string when creating menu items - #4616 by @maarcingebala
+- Fix bulk actions - #4618 by @dominik-zeglen
 
 ## 2.8.0
 

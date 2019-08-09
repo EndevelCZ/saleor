@@ -151,6 +151,7 @@ Some situations do call for extra code; we can cover exotic use cases or build y
 hello@mirumee.com
 
 
+
 ## Endevel CZ part follows
 
 ###Instalation according to [docs](https://saleor.readthedocs.io/en/latest/gettingstarted/installation-linux.html)
@@ -237,45 +238,34 @@ git pull https://github.com/mirumee/saleor master
 Pokud selže na konfliktu, otevřeme v Pycharmu záložku `9: Version Control` 
 a vyřešíme konflikty klasicky a následně commitneme merge a pushneme k nám.
 
-#### Zisk updatů v jednotlivých eshopech
-
-Každý eshop musí být vytvořený následujícím způsobem
-
-Nejdříve vytvoříme nový repozitář (bez README.md) - tzn. naprosto prázdný
-
-
+#### Typový vývoj
+Modely, se kterými pracujeme v dashboardu se definují v `saleor/graphql`,
+pomocí 
 ```
-git clone git@bitbucket.org:endevel/NEWSHOP_saleor.git  
-git remote add sync git@github.com:endevelcz/saleor.git # popr. mirumee/saleor.git
-git remote -v                                           # zkontrolovat
-git pull sync master                                    # pullneme sync upstream
-git branch --track github sync/master                   # nastavíme github branch pro sync
-git push -u origin master                               # pushenme všechno do masteru     
-
+npm run build-schema
+``` 
+se vygeneruje `schema.graphql`, ze kterého čte pak nástroj Apollo při
 ```
- 
-Pak už "jenom" pravidelně pullujeme v `github` větvi a mergujeme jí do masteru
-
-**NIKDY NEPUSHUJEME DO `github` větve, protože ta se updatuje přes `endevelcz/saleor` 
-github repo**
-
-#### Old version of getting updates
-
-Merge upstreamu originálího repo (dělá se v repo EndevelCZ/saleor)
-
-```
-git pull https://github.com/mirumee/saleor master
+npm run build-types
 ```
 
-Pokud selže na conflictu, otevřeme v Pycharmu záložku `9: Version Control` 
-a vyřešíme conflicty klasicky a následně commitneme merge a pushneme k nám.
+**Aby se vše vygenerovalo správně, musi být typy správně nadefinované na backendu
+a v TS musí být vydefinované pro daný objekt `mutations.ts` a `queries.ts` 
+dotazy a mutace (v každém modulu `dashboard-next` jsou tyto .ts fily zvlášt)**
 
-Po otestování změn na ukázkovém eshopu běžící přímo z EndevelCZ/saleor repa 
-můžeme přenést změny i do eshopu
+##### TypedQuery
+pokud definujeme v queiries `TypedQuery`, nejdříve zadefinujeme gql query, vygenerujeme 
+typy a doplníme `TypedQuery` definici (viz např. v `discounts/queries.ts`)
 
-1) uděláme a checknoutneme větev `update`
-2) ručně přeneseme soubory (třeba všechny najednou)
-3) commitneme a pushneme
-4) uděláme merge do masteru našeho eshopu (zahodíme, co nechceme přepsat)
-
-TOOD vymyslet něco lepšího
+### Ideání postup vývoje dashboardu
+1) Na backendu se zadefinuje model a `saleor/graphql` příslušené queries, mutace apod.
+2) Přes `npm run build-schema` vygenerujeme schema pro TypeScript
+3) V příslušném modulu dasboardu/next definujeme `queries`
+4) V příslušném modulu dasboardu/next definujeme `mutations`
+5) Přes `npm run build-types` vygenerujeme typy pro TypeScript
+6) Pokud přidáváme celé nové `view`, definujeme ho i v `urls.ts`
+7) Zadefinujeme si nové view ve `views`
+8) Napíšeme komponenty pro view
+9) Přidáme view do Routeru v `index.tsx` daného modulu
+10) Popřípadě definujeme i `translations.ts`
+11) Průběžně kontrolujeme kompilátorem (přes `npm start`), že kód neobsahuje (typové) chyby
